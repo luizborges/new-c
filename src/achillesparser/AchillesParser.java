@@ -5,17 +5,66 @@
  */
 package achillesparser;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.text.html.HTML;
+
 /**
  *
  * @author borges
  */
 public class AchillesParser {
 
+    
+    private Input input;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        AchillesParser ap = new AchillesParser();
+        ap.parser(args);
+    }
+    
+    /**
+     * 
+     * @param args 
+     */
+    public void parser(String[] args) {
+        input = new InputImpl(args); // initialize input
+        
+        // parser files in argument
+        for(BufferedReader bufferedReader = input.initReader();
+                bufferedReader != null; bufferedReader = input.nextReader()) {
+            
+            // transforma o arquivo em uma matrix em que cada linha eh uma linha da matrix
+            ArrayList<String> sourceCode = getFileString(bufferedReader);
+            
+            
+        }
+    }
+    
+    /**
+     * 
+     * @param breader
+     * @return 
+     */
+    private ArrayList<String> getFileString(BufferedReader breader) {
+        ArrayList<String> file = new ArrayList<>();
+        
+        try {
+            String line = null;    
+            while ((line = breader.readLine()) != null) {
+                file.add(line);
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(AchillesParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return file;
     }
     
 }
