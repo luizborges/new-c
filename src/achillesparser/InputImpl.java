@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 public class InputImpl implements Input {
     
     private final String[] fileName; // equal to fileName in public static int main(String[] fileName) that program Java receive in input argument
-    private ArrayList<BufferedReader> inputFile = new ArrayList<>();
+    private ArrayList<String> inputFile = new ArrayList<>();
     private int filePosition;
 
     ////////////////////////////////////////////////////////////////////////////
@@ -61,7 +61,7 @@ public class InputImpl implements Input {
      * @return null if position is >= fileName.length
          otherwise create a bufferedReader from fileName file
      */
-    private BufferedReader getBufferedReader(final int position) {
+    private ArrayList<String> getBufferedReader(final int position) {
         if(position < 0) error("position is less than zero. Position: ", String.valueOf(position));
         
         BufferedReader breader = null;
@@ -84,7 +84,7 @@ public class InputImpl implements Input {
     // Interface methods
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public BufferedReader initReader() {
+    public ArrayList<String> initReader() {
         filePosition = 0; // inicializa a leitura do file position
         BufferedReader breader = getBufferedReader(filePosition);
         filePosition++; // increment file position
@@ -93,7 +93,7 @@ public class InputImpl implements Input {
     }
 
     @Override
-    public BufferedReader nextReader() {
+    public ArrayList<String> nextReader() {
         if(filePosition < 0)
             error("filPposition is less than zero. Position: ", String.valueOf(filePosition));
         

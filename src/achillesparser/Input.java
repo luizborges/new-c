@@ -5,7 +5,7 @@
  */
 package achillesparser;
 
-import java.io.BufferedReader;
+import java.util.ArrayList;
 
 /**
  *
@@ -19,7 +19,7 @@ public interface Input {
      * argumentos de entrada do programa.
      * @return um BufferedReader para o primeiro arquivo.
      */
-    BufferedReader initReader();
+    ArrayList<String> initReader();
     
     /**
      * Retorna o proximo arquivo de leitura, dos arquivos de entrada passados pelos
@@ -27,5 +27,5 @@ public interface Input {
      * @return BufferedReader para o próximo arquivo caso exista.
      *         null para o caso de não haver próximo arquivo.
      */
-    BufferedReader nextReader();
+    ArrayList<String> nextReader();
 }
