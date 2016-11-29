@@ -48,7 +48,7 @@ public class AchillesParser {
     
     /**
      * Create a matrix that represents a file.
-     * Each line of the file will be a line in the matrix
+     * Each line of the file will be a line in the matrix.
      * The matrix is a ArrayList<String>
      * @param breader
      * @return ArrayList<String> that represents file.
