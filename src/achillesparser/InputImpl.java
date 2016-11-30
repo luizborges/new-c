@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
@@ -23,7 +24,6 @@ import java.util.logging.Logger;
 public class InputImpl implements Input {
     
     private final String[] fileName; // equal to fileName in public static int main(String[] fileName) that program Java receive in input argument
-    private ArrayList<String> inputFile = new ArrayList<>();
     private int filePosition;
 
     ////////////////////////////////////////////////////////////////////////////
@@ -56,28 +56,38 @@ public class InputImpl implements Input {
     }
     
     /**
-     * 
+     * Create a matrix that represents a file.
+     * Each line of the file will be a line in the matrix.
+     * The matrix is a ArrayList<String>
      * @param position
      * @return null if position is >= fileName.length
          otherwise create a bufferedReader from fileName file
      */
-    private ArrayList<String> getBufferedReader(final int position) {
+    private ArrayList<String> getFileString(final int position) {
         if(position < 0) error("position is less than zero. Position: ", String.valueOf(position));
         
-        BufferedReader breader = null;
-        if(position < inputFile.size()) { // check if file alread exists in inputFile
-            breader = inputFile.get(position);
-        } else if(position < fileName.length) { // create bufferedReader in inputFile array
+        ArrayList<String> fileStr = null;
+        if(position < fileName.length) {
+            BufferedReader breader = null;
             try {
                 FileInputStream fis = new FileInputStream(fileName[position]);
                 breader = new BufferedReader(new InputStreamReader(fis));
-                inputFile.add(breader); // add object in the end of the arrayList
             } catch (FileNotFoundException ex) {
+                Logger.getLogger(InputImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                
+            try {
+                fileStr = new ArrayList<>();
+                String line = null;
+                while ((line = breader.readLine()) != null) {
+                    fileStr.add(line);
+                }
+            } catch (IOException ex) {
                 Logger.getLogger(InputImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
-        return breader;
+        return fileStr;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -86,10 +96,10 @@ public class InputImpl implements Input {
     @Override
     public ArrayList<String> initReader() {
         filePosition = 0; // inicializa a leitura do file position
-        BufferedReader breader = getBufferedReader(filePosition);
+        ArrayList<String> fileStr = getFileString(filePosition);
         filePosition++; // increment file position
         
-        return breader;
+        return fileStr;
     }
 
     @Override
@@ -97,10 +107,10 @@ public class InputImpl implements Input {
         if(filePosition < 0)
             error("filPposition is less than zero. Position: ", String.valueOf(filePosition));
         
-        BufferedReader breader = getBufferedReader(filePosition);
-        filePosition++; // increment file position
+        ArrayList<String> fileStr = getFileString(filePosition);
+        if(fileStr != null) filePosition++; // increment file position
         
-        return breader;
+        return fileStr;
     }
     
 }
