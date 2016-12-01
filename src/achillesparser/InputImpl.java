@@ -51,8 +51,7 @@ public class InputImpl implements Input {
         System.out.println();
         System.out.format("=====================================================\n\n");
         new Throwable().getStackTrace();
-        System.exit(1);
-        
+        System.exit(1); 
     }
     
     /**

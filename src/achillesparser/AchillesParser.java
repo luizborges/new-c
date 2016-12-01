@@ -40,7 +40,7 @@ public class AchillesParser {
                 sourceCode != null; sourceCode = input.nextReader()) {
             
             ParserComment parserComment = new ParserCommentImpl();
-            sourceCode = parserComment.parserComment(sourceCode);
+            parserComment.parserComment(sourceCode);
         }
     }
     

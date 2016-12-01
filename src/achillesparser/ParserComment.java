@@ -19,5 +19,5 @@ public interface ParserComment {
      * @param sourceCode: Matrix file that represents the file.
      * @return Matrix that represents the file.
      */
-    ArrayList<String> parserComment(final ArrayList<String> sourceCode);
+    void parserComment(ArrayList<String> sourceCode);
 }
