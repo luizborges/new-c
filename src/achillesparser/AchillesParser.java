@@ -5,12 +5,9 @@
  */
 package achillesparser;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import achillesParserUtil.Exit;
+import achillesParserUtil.ExitImpl;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.text.html.HTML;
 
 /**
  *
@@ -18,8 +15,10 @@ import javax.swing.text.html.HTML;
  */
 public class AchillesParser {
 
-    
+    private Exit exit = new ExitImpl(75000);
+    private int lineNumber;
     private Input input;
+    
     /**
      * @param args the command line arguments
      */
@@ -39,9 +38,28 @@ public class AchillesParser {
         for(ArrayList<String> sourceCode = input.initReader();
                 sourceCode != null; sourceCode = input.nextReader()) {
             
-            ParserComment parserComment = new ParserCommentImpl();
-            parserComment.parserComment(sourceCode);
+            ParserComment pc = new ParserCommentImpl();
+            sourceCode = pc.parserComment(sourceCode);
+            
+            ParserString ps = new ParserStringImpl();
+            sourceCode = ps.parserString(sourceCode);
+            
+            ////////////////////////////////////////////////////////////////////
+            // Init the parser to 
+            ////////////////////////////////////////////////////////////////////
+            for (int i=0; i < sourceCode.size(); ++i) {
+                System.out.format("%s\n", sourceCode.get(i));
+            }
+
+//            for (lineNumber=0; lineNumber < sourceCode.size(); ++lineNumber) {
+//                
+//            }
+            
         }
     }
+    
+    
+    
+    
     
 }
