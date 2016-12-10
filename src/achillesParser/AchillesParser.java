@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package achillesparser;
+package achillesParser;
 
+import achillesParserUtil.Input;
+import achillesParserUtil.InputImpl;
 import achillesParserUtil.Exit;
 import achillesParserUtil.ExitImpl;
 import java.util.ArrayList;
@@ -38,11 +40,14 @@ public class AchillesParser {
         for(ArrayList<String> sourceCode = input.initReader();
                 sourceCode != null; sourceCode = input.nextReader()) {
             
-            ParserComment pc = new ParserCommentImpl();
-            sourceCode = pc.parserComment(sourceCode);
+            Parser pc = new ParserCommentImpl();
+            sourceCode = pc.parser(sourceCode);
             
-            ParserString ps = new ParserStringImpl();
-            sourceCode = ps.parserString(sourceCode);
+            pc = new ParserStringImpl();
+            sourceCode = pc.parser(sourceCode);
+            
+            pc = new ParserMacroImpl();
+            sourceCode = pc.parser(sourceCode);
             
             ////////////////////////////////////////////////////////////////////
             // Init the parser to 
@@ -50,10 +55,6 @@ public class AchillesParser {
             for (int i=0; i < sourceCode.size(); ++i) {
                 System.out.format("%s\n", sourceCode.get(i));
             }
-
-//            for (lineNumber=0; lineNumber < sourceCode.size(); ++lineNumber) {
-//                
-//            }
             
         }
     }

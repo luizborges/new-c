@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package achillesParserType;
+package achillesParser;
 
 import java.util.ArrayList;
 
@@ -11,6 +11,6 @@ import java.util.ArrayList;
  *
  * @author borges
  */
-public interface Macro {
-    ArrayList<String> parser(ArrayList<String> sourceCode);
+public interface Parser {
+    ArrayList<String> parser(final ArrayList<String> sourceCode);
 }

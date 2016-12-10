@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package achillesparser;
+package achillesParser;
 
 import achillesParserType.Code;
 import achillesParserType.CodeImpl;
@@ -16,7 +16,7 @@ import java.util.Arrays;
  *
  * @author borges
  */
-public class ParserStringImpl implements ParserString {
+public class ParserStringImpl implements Parser {
     /**
      * Class to keep safe the position of the original string and char
      * that exists in a original source code.
@@ -24,18 +24,18 @@ public class ParserStringImpl implements ParserString {
     private class CodeStrPosition {
         public int init; // init position in line
         public int end; // end position in line
-        public Code.TCode tcode; // type of the code
+        public Code.Type tcode; // type of the code
         public String originalCode; // original statement of the user. ex: "hello world!" or 'c' 
         public int lineNumber; // line number of the source code
     }
     
-    private Exit exit = new ExitImpl(75003);
-    private ArrayList<String> sourceCodeWithoutStringAndChar = new ArrayList<>();
+    private final Exit exit = new ExitImpl(75003);
+    private final ArrayList<String> sourceCodeWithoutStringAndChar = new ArrayList<>();
     private int lineNumber;
     private int pos;
     private char line[];
-    private Code code = new CodeImpl();
-    private ArrayList<CodeStrPosition> codePosition = new ArrayList<>();
+    private final Code code = new CodeImpl();
+    private final ArrayList<CodeStrPosition> codePosition = new ArrayList<>();
     
     
     
@@ -45,21 +45,16 @@ public class ParserStringImpl implements ParserString {
     ////////////////////////////////////////////////////////////////////////////
     
     ////////////////////////////////////////////////////////////////////////////
-    // private methods
-    ////////////////////////////////////////////////////////////////////////////
-    
-    ////////////////////////////////////////////////////////////////////////////
     // Interface methods
     ////////////////////////////////////////////////////////////////////////////
-    @Override
-
     /**
      *
      * @param sourceCode
      * @return
      */
-    public ArrayList<String> parserString(final ArrayList<String> sourceCode) {
-        int i = 0;
+    public ArrayList<String> parser(final ArrayList<String> sourceCode) {
+        int i = 0; // guarda a posição corrente do ID da última posicao de string
+                   // encontrada no arranjo que guarda as strings encontradas
         for (lineNumber=0; lineNumber < sourceCode.size(); ++lineNumber) {
             line = sourceCode.get(lineNumber).toCharArray();
             boolean hasParser = false;
@@ -69,10 +64,10 @@ public class ParserStringImpl implements ParserString {
             ////////////////////////////////////////////////////////////////////////////
             for (pos=0; pos < line.length; ++pos) {
                 if (line[pos] == '"') {
-                    parser(Code.TCode.String);
+                    parser(Code.Type.String);
                     hasParser = true;
                 } else if (line[pos] == '\'') {
-                    parser(Code.TCode.Char);
+                    parser(Code.Type.Char);
                     hasParser = true;
                 }
             }
@@ -95,20 +90,23 @@ public class ParserStringImpl implements ParserString {
         return sourceCodeWithoutStringAndChar;
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    // private methods
+    ////////////////////////////////////////////////////////////////////////////
     /**
-     * Descobre uma ocorrencia simples do código e guarda a mesma.
-     * @param tCode 
+     * Descobre uma ocorrencia simples de string e char no código e guarda a mesma.
+     * @param type: tipo de ocorrencia, se é string ou char 
      */
-    private void parser(Code.TCode tCode) {
+    private void parser(Code.Type type) {
         char c = 0;
-        switch (tCode) {
+        switch (type) {
             case String: c = '"'; break;
             case Char: c = '\''; break;
-            default: exit.error(1, "Code does not exists. Code = ", tCode.toString());
+            default: exit.error(1, "Code does not exists. Code = ", type.toString());
         }
         
         CodeStrPosition positionStr = new CodeStrPosition();
-        positionStr.tcode = tCode;
+        positionStr.tcode = type;
         positionStr.init = pos;
         positionStr.lineNumber = lineNumber+1;
         
@@ -122,6 +120,7 @@ public class ParserStringImpl implements ParserString {
         } catch (ArrayIndexOutOfBoundsException e) {
               e.printStackTrace();
               exit.error(2, "Malformed Line. LineNumber: ", String.valueOf(lineNumber+1),
+                      "\nCan not be reached the end of  ", type.toString(),
                       "\n\"", Arrays.toString(line), "\"\n",
                       "Exception Name: \'ArrayIndexOutOfBoundsException\'");
         }

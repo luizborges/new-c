@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package achillesparser;
+package achillesParser;
 
 import achillesParserUtil.Exit;
 import achillesParserUtil.ExitImpl;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
  *
  * @author borges
  */
-public class ParserCommentImpl implements ParserComment {
+public class ParserCommentImpl implements Parser {
 
     ////////////////////////////////////////////////////////////////////////////
     // variables
@@ -50,8 +50,14 @@ public class ParserCommentImpl implements ParserComment {
      * O parser é feito por meio de uma máquina de estados finitos.
      * @param sourceCode 
      */
+    /**
+     * Função para retirar os comentários do arquivo de código fonte.
+     * Function to strip comments from source code file.
+     * @param sourceCode: Matrix file that represents the file.
+     * @return Matrix that represents the file.
+     */
     @Override
-    public ArrayList<String> parserComment(ArrayList<String> sourceCode) {
+    public ArrayList<String> parser(final ArrayList<String> sourceCode) {
         
         StateFile state = StateFile.CommonLine;
         
@@ -60,13 +66,9 @@ public class ParserCommentImpl implements ParserComment {
 //            System.out.format("ori: \"%s\"\n", line);
             switch(state) {
                 case CommonLine:
-                    state = findComment(line); 
-//                    System.out.format("fo1: \"%s\"\n", sourceCodeWithoutComment.get(lineNumber));
-                    break;
+                    state = findComment(line); break;
                 case BlockComment: 
-                    state = blockCommentBody(line); 
-//                    System.out.format("fo2: \"%s\"\n", sourceCodeWithoutComment.get(lineNumber));
-                    break;
+                    state = blockCommentBody(line); break;
                 default: break;
             }
         }

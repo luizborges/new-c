@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package achillesparser;
+package achillesParserUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,7 +33,7 @@ public class InputImpl implements Input {
      * 
      * @param args 
      */
-    InputImpl(final String[] fileName) {
+    public InputImpl(final String[] fileName) {
         if(fileName == null) error("No input file array. Argument to program is null.");
         this.fileName = fileName;
     }

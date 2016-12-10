@@ -11,43 +11,4 @@ package achillesParserType;
  */
 public interface Node {
     
-    
-    
-//    /**
-//     * 
-//     * @param type 
-//     */
-//    void setType(Type type);
-//    
-//    /**
-//     * 
-//     * @return 
-//     */
-//    Type getType();
-    
-    /**
-     * 
-     * @param child 
-     */
-    void addChild(Node child);
-    
-    /**
-     * Number of child that this node has.
-     * @return 
-     */
-    int numChild();
-    
-    /**
-     * 
-     * @param index
-     * @return 
-     */
-    Node getChild(int index);
-    
-    
-    /**
-     * Get the parent of the Node.
-     * @return 
-     */
-    Node getParent();
 }

@@ -11,10 +11,11 @@ package achillesParserType;
  */
 public interface Code {
     
-    enum TCode {
+    enum Type {
         String,
-        Char
+        Char,
+        Macro,
     }
     
-    String getCode(final TCode code);
+    String getCode(final Type code);
 }
