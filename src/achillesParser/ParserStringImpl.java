@@ -7,6 +7,7 @@ package achillesParser;
 
 import achillesParserType.Code;
 import achillesParserType.CodeImpl;
+import achillesParserUtil.AbstractFactory;
 import achillesParserUtil.Exit;
 import achillesParserUtil.ExitImpl;
 import java.util.ArrayList;
@@ -29,12 +30,12 @@ public class ParserStringImpl implements Parser {
         public int lineNumber; // line number of the source code
     }
     
-    private final Exit exit = new ExitImpl(75003);
+    private final Exit exit = AbstractFactory.newExit(75003);
     private final ArrayList<String> sourceCodeWithoutStringAndChar = new ArrayList<>();
     private int lineNumber;
     private int pos;
     private char line[];
-    private final Code code = new CodeImpl();
+    private final Code code = AbstractFactory.newCode();
     private final ArrayList<CodeStrPosition> codePosition = new ArrayList<>();
     
     
@@ -108,7 +109,7 @@ public class ParserStringImpl implements Parser {
         CodeStrPosition positionStr = new CodeStrPosition();
         positionStr.tcode = type;
         positionStr.init = pos;
-        positionStr.lineNumber = lineNumber+1;
+        positionStr.lineNumber = lineNumber;
         
         try {
             do {                    
@@ -119,10 +120,10 @@ public class ParserStringImpl implements Parser {
             } while (line[pos] != c);
         } catch (ArrayIndexOutOfBoundsException e) {
               e.printStackTrace();
-              exit.error(2, "Malformed Line. LineNumber: ", String.valueOf(lineNumber+1),
+              exit.errorLine(2, lineNumber, Arrays.toString(line),
+                      "Malformed Line.",
                       "\nCan not be reached the end of  ", type.toString(),
-                      "\n\"", Arrays.toString(line), "\"\n",
-                      "Exception Name: \'ArrayIndexOutOfBoundsException\'");
+                      "\n\nException Name: \'ArrayIndexOutOfBoundsException\'");
         }
         
         positionStr.end = pos;

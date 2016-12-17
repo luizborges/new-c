@@ -18,4 +18,7 @@ public interface Exit {
     void error(final String... msg);
     
     void error(final int errorCode, final String... msg);
+    
+    void errorLine(final int errorCode, final int lineNumber,
+            final String line, final String... msg);
 }

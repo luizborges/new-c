@@ -48,5 +48,18 @@ public class ExitImpl implements Exit {
         new Throwable().getStackTrace();
         System.exit(1); 
     }
+
+    @Override
+    public void errorLine(int errorCode, int lineNumber, String line, String... msg) {
+        System.out.format("ERROR: %s.%d - ", header, errorCode);
+        for(int i=0; i < msg.length; ++i) {
+            System.out.format("%s ", msg[i]);
+        }
+        System.out.format("\nLine Number: %d\n", lineNumber+1);
+        System.out.format("Line : \"%s\"\n", line);
+        System.out.format("=====================================================\n\n");
+        new Throwable().getStackTrace();
+        System.exit(1); 
+    }
     
 }

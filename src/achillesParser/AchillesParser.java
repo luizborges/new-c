@@ -5,6 +5,9 @@
  */
 package achillesParser;
 
+import achillesParserType.Node;
+import achillesParserType.NodeImpl;
+import achillesParserUtil.AbstractFactory;
 import achillesParserUtil.Input;
 import achillesParserUtil.InputImpl;
 import achillesParserUtil.Exit;
@@ -40,6 +43,8 @@ public class AchillesParser {
         for(ArrayList<String> sourceCode = input.initReader();
                 sourceCode != null; sourceCode = input.nextReader()) {
             
+            AbstractFactory.newNode(sourceCode.size()-1);
+            
             Parser pc = new ParserCommentImpl();
             sourceCode = pc.parser(sourceCode);
             
@@ -47,6 +52,9 @@ public class AchillesParser {
             sourceCode = pc.parser(sourceCode);
             
             pc = new ParserMacroImpl();
+            sourceCode = pc.parser(sourceCode);
+            
+            pc = new ParserFunctionImpl();
             sourceCode = pc.parser(sourceCode);
             
             ////////////////////////////////////////////////////////////////////

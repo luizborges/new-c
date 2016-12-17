@@ -12,9 +12,11 @@ package achillesParserType;
 public interface Code {
     
     enum Type {
+        Root,
         String,
         Char,
         Macro,
+        Function
     }
     
     String getCode(final Type code);

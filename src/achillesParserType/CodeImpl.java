@@ -5,6 +5,7 @@
  */
 package achillesParserType;
 
+import achillesParserUtil.AbstractFactory;
 import achillesParserUtil.Exit;
 import achillesParserUtil.ExitImpl;
 
@@ -14,10 +15,19 @@ import achillesParserUtil.ExitImpl;
  */
 public class CodeImpl implements Code {
 
-    Exit exit = new ExitImpl(84001);
+    private static final Exit exit = AbstractFactory.newExit(84001);
+    private static CodeImpl codeImpl = null;
+    
     ////////////////////////////////////////////////////////////////////////////
-    // Constructor
+    // Constructor and Singleton
     ////////////////////////////////////////////////////////////////////////////
+    public static CodeImpl getInstance() {
+        if (codeImpl == null) {
+            codeImpl = new CodeImpl();
+        }
+        
+        return codeImpl;
+    }
     
     ////////////////////////////////////////////////////////////////////////////
     // private methods
@@ -32,8 +42,9 @@ public class CodeImpl implements Code {
      */
     public String getCode(Type code) {
         switch(code) {
-            case String: return "$_String_$";
-            case Char:   return "$_Char_$";
+            case String: return ""; //"$_String_$";
+            case Char:   return ""; //"$_Char_$";
+            case Macro:  return ""; //"$_Macro_$";
             default: exit.error(1, "Code does not exists. Code = ", code.toString());
         }
         

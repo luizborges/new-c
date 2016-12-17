@@ -5,6 +5,7 @@
  */
 package achillesParser;
 
+import achillesParserUtil.AbstractFactory;
 import achillesParserUtil.Exit;
 import achillesParserUtil.ExitImpl;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class ParserCommentImpl implements Parser {
         CommonLine, BlockComment
     }
     
-    private final Exit exit = new ExitImpl(75002);
+    private final Exit exit = AbstractFactory.newExit(75002);
     private int lineNumber;
     private ArrayList<String> sourceCodeWithoutComment = new ArrayList<>();
     
@@ -117,8 +118,7 @@ public class ParserCommentImpl implements Parser {
             }
           } catch (ArrayIndexOutOfBoundsException e) {
               e.printStackTrace();
-              exit.error(1, "Malformed Line. LineNumber: ", String.valueOf(lineNumber+1),
-                      "\n\"", lineStr, "\"\n",
+              exit.errorLine(1, lineNumber, lineStr, "Malformed Line.\n",
                       "Exception Name: \'ArrayIndexOutOfBoundsException\'");
           }
         }
