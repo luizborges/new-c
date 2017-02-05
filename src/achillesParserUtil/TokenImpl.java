@@ -6,8 +6,6 @@
 package achillesParserUtil;
 
 import java.util.ArrayList;
-import java.util.Stack;
-import jdk.nashorn.internal.runtime.regexp.JoniRegExp;
 
 /**
  *
@@ -20,7 +18,7 @@ public class TokenImpl implements Token {
     
     
     private ArrayList<String> sourceCode;
-    private String lineToken[];
+    private ArrayList<String> lineToken = new ArrayList<>();
     private int lineNumber;
     private int linePos;
     private String tokenStr;
@@ -49,12 +47,13 @@ public class TokenImpl implements Token {
         ////////////////////////////////////////////////////////////////////////////
         // Get the first token
         ////////////////////////////////////////////////////////////////////////////
+        System.out.format("size: %d\n", sourceCode.size());
         for (lineNumber = 0; lineNumber < sourceCode.size(); ++lineNumber) {
             lineToTokens();
-            for (linePos = 0; linePos < lineToken.length; ++linePos) {
-                if (lineToken[linePos].isEmpty() == false) {
-                    tokenStr = lineToken[linePos];
-                    break;
+            for (linePos = 0; linePos < lineToken.size(); ++linePos) {
+                if (lineToken.get(linePos).isEmpty() == false) {
+                    tokenStr = lineToken.get(linePos);
+                    return tokenStr;
                 }
             }
         }
@@ -64,15 +63,25 @@ public class TokenImpl implements Token {
     @Override
     public String nextToken() {
         tokenStr = null;
-        for (; lineNumber < sourceCode.size(); ++lineNumber) {
-            lineToTokens();
-            for (; linePos < lineToken.length; ++linePos) {
-                if (lineToken[linePos].isEmpty() == false) {
-                    tokenStr = lineToken[linePos];
-                    break;
-                }
+        ++linePos;
+        if (lineNumber < sourceCode.size()) {
+            if (linePos == 0) {
+                lineToTokens();
+            }
+            
+            if (linePos < lineToken.size()) {
+                tokenStr = lineToken.get(linePos);
+                return tokenStr;
+            } else {
+                // realiza o incremento da linha e reseta o valor da coluna
+                // chama a proxima interação para não retornar um valor null
+                // e sempre retornar um valor e token válido
+                ++lineNumber;
+                linePos = -1;
+                return nextToken();
             }
         }
+        
         return tokenStr;
     }
     
@@ -82,11 +91,9 @@ public class TokenImpl implements Token {
         for (lineNumber = lineNumberInit; lineNumber < sourceCode.size(); ++lineNumber) {
             lineToTokens();
             linePos = lineNumber == lineNumberInit ? linePosInit : 0;
-            for (; linePos < lineToken.length; ++linePos) {
-                if (lineToken[linePos].isEmpty() == false) {
-                    tokenStr = lineToken[linePos];
-                    break;
-                }
+            for (; linePos < lineToken.size(); ++linePos) {
+                tokenStr = lineToken.get(linePos);
+                return tokenStr;
             }
         }
         return tokenStr;
@@ -96,6 +103,16 @@ public class TokenImpl implements Token {
     public String getString() {
         if (isInit) {
             return tokenStr;
+        } else {
+            exit.error(2, "Not Initialize Token and try to use it.");
+            return null;
+        }
+    }
+    
+    @Override
+    public String getLine() {
+        if (isInit) {
+            return sourceCode.get(lineNumber);
         } else {
             exit.error(2, "Not Initialize Token and try to use it.");
             return null;
@@ -125,7 +142,7 @@ public class TokenImpl implements Token {
     @Override
     public boolean isEnd() {
         if (isInit) {
-            if (tokenStr != null) {
+            if (lineNumber < sourceCode.size()) {
                 return false;
             } else {
                 return true;
@@ -133,6 +150,48 @@ public class TokenImpl implements Token {
         } else {
             exit.error(2, "Not Initialize Token and try to use it.");
             return true;
+        }
+    }
+    
+    @Override
+    public boolean isNewLine() {
+        if (isInit) {
+            if (linePos == 0) {
+                return true;
+            } else if (linePos < 0) {
+                exit.error(3, "Token ID is less than Token_Line_Min_ID = 0. linePos = ", String.valueOf(linePos));
+                return false; // never gets here
+            } else if (linePos >=  lineToken.size()) {
+                exit.error(4, "Token ID is greater than Token_Line_Max_ID. linePos = ", String.valueOf(linePos), 
+                        "\nToken_Line_Max_ID = ", String.valueOf(lineToken.size() -1));
+                return false; // never gets here
+            } else {
+                return false;
+            }
+        } else {
+            exit.error(5, "Not Initialize Token and try to use it.");
+            return false; // never gets here
+        }
+    }
+
+    @Override
+    public boolean isLastToken() {
+        if (isInit) {
+            if (linePos == lineToken.size() -1) {
+                return true;
+            } else if (linePos < 0) {
+                exit.error(6, "Token ID is less than Token_Line_Min_ID = 0. linePos = ", String.valueOf(linePos));
+                return false; // never gets here
+            } else if (linePos >=  lineToken.size()) {
+                exit.error(7, "Token ID is greater than Token_Line_Max_ID. linePos = ", String.valueOf(linePos), 
+                        "\nToken_Line_Max_ID = ", String.valueOf(lineToken.size() -1));
+                return false; // never gets here
+            } else {
+                return false;
+            }
+        } else {
+            exit.error(8, "Not Initialize Token and try to use it.");
+            return false; // never gets here
         }
     }
 
@@ -144,27 +203,32 @@ public class TokenImpl implements Token {
      */
     private void lineToTokens() {
         String lineStr = sourceCode.get(lineNumber).trim();
-        lineToken = lineStr.split("\\s++"
-                            + "|(?!^|$)(?:(?<=;)(?!;)|(?<!;)(?=;))"
-                            + "|(?!^|$)(?:(?<=#)(?!#)|(?<!#)(?=#))"
-                            + "|(?!^|$)(?:(?<=\\{)(?!\\{)|(?<!\\{)(?=\\{))"
-                            + "|(?!^|$)(?:(?<=\\})(?!\\})|(?<!\\})(?=\\}))"
-                            + "|(?!^|$)(?:(?<=\\()(?!\\()|(?<!\\()(?=\\())"
-                            + "|(?!^|$)(?:(?<=\\))(?!\\))|(?<!\\))(?=\\)))"
-                            + "|(?!^|$)(?:(?<=\\,)(?!\\,)|(?<!\\,)(?=\\,))"
-                            + "|(?!^|$)(?:(?<=\\:)(?!\\:)|(?<!\\:)(?=\\:))"
-                            + "|(?!^|$)(?:(?<=\\::)(?!\\::)|(?<!\\::)(?=\\::))"
-                            + "|(?!^|$)(?:(?<=\\<)(?!\\<)|(?<!\\<)(?=\\<))"
-                            + "|(?!^|$)(?:(?<=\\>)(?!\\>)|(?<!\\>)(?=\\>))"
-                            + "|(?!^|$)(?:(?<=\\=)(?!\\=)|(?<!\\=)(?=\\=))");
+        String[] lineT;
         
-        // code to print tokens in terminal
-//        System.out.format("%d:: ", lineNumber+1);
-//        for (int i=0; i < token.length; ++i) {
-//            System.out.format("[%s] ", token[i]);
-//        }
-//        System.out.println();
+        lineT = lineStr.split("\\s++"
+                + "|(?!^|$)(?:(?<=\\;)(?!\\;)|(?<!\\;)(?=\\;))"
+                + "|(?!^|$)(?:(?<=\\#)(?!\\#)|(?<!\\#)(?=\\#))"
+                + "|(?!^|$)(?:(?<=\\{)(?!\\{)|(?<!\\{)(?=\\{))"
+                + "|(?!^|$)(?:(?<=\\})(?!\\})|(?<!\\})(?=\\}))"
+                + "|(?!^|$)(?:(?<=\\()(?!\\()|(?<!\\()(?=\\())"
+                + "|(?!^|$)(?:(?<=\\))(?!\\))|(?<!\\))(?=\\)))"
+                + "|(?!^|$)(?:(?<=\\,)(?!\\,)|(?<!\\,)(?=\\,))"
+                + "|(?!^|$)(?:(?<=\\:)(?!\\:)|(?<!\\:)(?=\\:))"
+                + "|(?!^|$)(?:(?<=\\::)(?!\\::)|(?<!\\::)(?=\\::))"
+                + "|(?!^|$)(?:(?<=\\<)(?!\\<)|(?<!\\<)(?=\\<))"
+                + "|(?!^|$)(?:(?<=\\>)(?!\\>)|(?<!\\>)(?=\\>))"
+                + "|(?!^|$)(?:(?<=\\=)(?!\\=)|(?<!\\=)(?=\\=))");
+        
+        lineToken.clear(); // reseta a lista
+        
+        for (int i = 0; i < lineT.length; ++i) {
+            if (lineT[i].isEmpty() == false) {
+                lineToken.add(lineT[i]);
+            }
+        }
     }
+
+    
 
     
 

@@ -6,16 +6,15 @@
 package achillesParserUtil;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  *
@@ -99,20 +98,38 @@ public class InputImpl implements Input {
     public ArrayList<String> initReader() {
         filePosition = 0; // inicializa a leitura do file position
         ArrayList<String> fileStr = getFileString(filePosition);
-        filePosition++; // increment file position
         
         return fileStr;
     }
 
     @Override
     public ArrayList<String> nextReader() {
+        if(filePosition < fileName.length)
+            ++filePosition; // increment variable
+        
         if(filePosition < 0)
             error("filPposition is less than zero. Position: ", String.valueOf(filePosition));
         
         ArrayList<String> fileStr = getFileString(filePosition);
-        if(fileStr != null) filePosition++; // increment file position
         
         return fileStr;
+    }
+
+    @Override
+    public String getFileName() {
+        if (filePosition < 0)
+            error("position is less than zero. Position: ", String.valueOf(filePosition));
+        if (!(filePosition < fileName.length)) {
+             error("position is greater than MAX_FILES_PASSED_BY_USER.\nPosition: ", String.valueOf(filePosition),
+                     "\nMAX_FILES_PASSED_BY_USER: ", String.valueOf(fileName.length));
+        }
+        
+        Path p = Paths.get(fileName[filePosition]);
+        String fullName = p.getFileName().toString();  
+        String name[] = fullName.split("\\s++"
+                + "|(?!^|$)(?:(?<=\\.)(?!\\.)|(?<!\\.)(?=\\.))");
+        
+        return name[0]; // retorna apenas o primeiro nome, sem o "." e a extensão
     }
     
 }

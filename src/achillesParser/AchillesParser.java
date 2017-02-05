@@ -5,9 +5,6 @@
  */
 package achillesParser;
 
-import achillesParserType.Node;
-import achillesParserType.NodeImpl;
-import achillesParserUtil.AbstractFactory;
 import achillesParserUtil.Input;
 import achillesParserUtil.InputImpl;
 import achillesParserUtil.Exit;
@@ -21,7 +18,6 @@ import java.util.ArrayList;
 public class AchillesParser {
 
     private Exit exit = new ExitImpl(75000);
-    private int lineNumber;
     private Input input;
     
     /**
@@ -43,27 +39,16 @@ public class AchillesParser {
         for(ArrayList<String> sourceCode = input.initReader();
                 sourceCode != null; sourceCode = input.nextReader()) {
             
-            AbstractFactory.newNode(sourceCode.size()-1);
-            
             Parser pc = new ParserCommentImpl();
-            sourceCode = pc.parser(sourceCode);
+            sourceCode = pc.parser(sourceCode, input.getFileName());
             
-            pc = new ParserStringImpl();
-            sourceCode = pc.parser(sourceCode);
+            System.out.format("File name: \"%s\"\n", input.getFileName());
             
-            pc = new ParserMacroImpl();
-            sourceCode = pc.parser(sourceCode);
+            pc = new ParserFunctionImpl3();
+            pc.parser(sourceCode, input.getFileName());
             
-            pc = new ParserFunctionImpl();
-            sourceCode = pc.parser(sourceCode);
-            
-            ////////////////////////////////////////////////////////////////////
-            // Init the parser to 
-            ////////////////////////////////////////////////////////////////////
-            for (int i=0; i < sourceCode.size(); ++i) {
-                System.out.format("%s\n", sourceCode.get(i));
-            }
-            
+//            Output out = new OuputImpl();
+//            out.save(input.getFile(), pc.getFileHeader(), pc.getFileCode());
         }
     }
     

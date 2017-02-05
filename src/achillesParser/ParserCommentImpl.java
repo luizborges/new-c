@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * @author borges
  */
 public class ParserCommentImpl implements Parser {
-
+    
     ////////////////////////////////////////////////////////////////////////////
     // variables
     ////////////////////////////////////////////////////////////////////////////
@@ -42,10 +42,8 @@ public class ParserCommentImpl implements Parser {
     
     
     ////////////////////////////////////////////////////////////////////////////
-    // constructor
+    // interface functions
     ////////////////////////////////////////////////////////////////////////////
-    
-    
     
     /**
      * O parser é feito por meio de uma máquina de estados finitos.
@@ -58,7 +56,7 @@ public class ParserCommentImpl implements Parser {
      * @return Matrix that represents the file.
      */
     @Override
-    public ArrayList<String> parser(final ArrayList<String> sourceCode) {
+    public ArrayList<String> parser(final ArrayList<String> sourceCode, final String fileName) {
         
         StateFile state = StateFile.CommonLine;
         
@@ -78,6 +76,20 @@ public class ParserCommentImpl implements Parser {
         
     }
   
+    @Override
+    public ArrayList<String> getFileHeader() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<String> getFileCode() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // private methods
+    ////////////////////////////////////////////////////////////////////////////
+    
     
     /**
      * 

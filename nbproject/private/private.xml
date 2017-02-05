@@ -3,11 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/borges/NetBeansProjects/AchillesParser/src/achillesparser/ParserComment.java</file>
-            <file>file:/home/borges/NetBeansProjects/AchillesParser/src/achillesparser/AchillesParser.java</file>
-            <file>file:/home/borges/NetBeansProjects/AchillesParser/src/achillesparser/Input.java</file>
-            <file>file:/home/borges/NetBeansProjects/AchillesParser/src/achillesparser/InputImpl.java</file>
-            <file>file:/home/borges/NetBeansProjects/AchillesParser/src/achillesparser/ParserCommentImpl.java</file>
+            <file>file:/home/borges/NetBeansProjects/AchillesParser/src/achillesParserUtil/Input.java</file>
+            <file>file:/home/borges/NetBeansProjects/AchillesParser/src/achillesParser/AchillesParser.java</file>
+            <file>file:/home/borges/NetBeansProjects/AchillesParser/src/achillesParserUtil/InputImpl.java</file>
         </group>
     </open-files>
 </project-private>

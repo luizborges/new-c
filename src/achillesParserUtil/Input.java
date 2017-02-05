@@ -28,4 +28,11 @@ public interface Input {
      *         null para o caso de não haver próximo arquivo.
      */
     ArrayList<String> nextReader();
+    
+    /**
+     * Retorna o nome do arquivo de leitura em questão
+     * É retornado apenas o nome, sem os diretórios e a extensão.
+     * @return String contendo o nome do arquivo
+     */
+    String getFileName();
 }

@@ -5,10 +5,6 @@
  */
 package achillesParser;
 
-import achillesParserType.Code;
-import achillesParserType.CodeImpl;
-import achillesParserType.Node;
-import achillesParserType.NodeImpl;
 import achillesParserUtil.AbstractFactory;
 import achillesParserUtil.Exit;
 import achillesParserUtil.ExitImpl;
@@ -31,8 +27,8 @@ public class ParserMacroImpl implements Parser {
     private int lineNumber;
     private final Exit exit = AbstractFactory.newExit(75004);
     private String lineStr;
-    private final Node root = AbstractFactory.newNode();
-    private final Code code = AbstractFactory.newCode();
+//    private final Node root = AbstractFactory.newNode();
+//    private final Code code = AbstractFactory.newCode();
     private ArrayList<String> sourceCode;
     
     
@@ -44,7 +40,7 @@ public class ParserMacroImpl implements Parser {
     // Interface methods
     ////////////////////////////////////////////////////////////////////////////
         @Override
-    public ArrayList<String> parser(final ArrayList<String> sourceCode) {
+    public ArrayList<String> parser(final ArrayList<String> sourceCode, final String fileName) {
         this.sourceCode = sourceCode;
         for (lineNumber = 0; lineNumber < sourceCode.size(); ++lineNumber) {
             lineStr = sourceCode.get(lineNumber);
@@ -131,14 +127,24 @@ public class ParserMacroImpl implements Parser {
             ////////////////////////////////////////////////////////////////////
             // set line Macro in source File without macro
             ////////////////////////////////////////////////////////////////////
-            sourceCodeWithoutMacro.add(code.getCode(Code.Type.Macro));
+//            sourceCodeWithoutMacro.add(code.getCode(Code.Type.Macro));
             if (macroEnd == false) {
                 ++lineNumber;
             }
         } while(macroEnd == false);
         
         int lineEnd = lineNumber;
-        root.add(Code.Type.Macro, lineInit, lineEnd);
+//        root.add(Code.Type.Macro, lineInit, lineEnd);
+    }
+
+    @Override
+    public ArrayList<String> getFileHeader() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<String> getFileCode() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
 

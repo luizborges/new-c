@@ -16,6 +16,16 @@ import java.util.Stack;
  */
 public class ParserFunctionImpl implements Parser {
 
+    @Override
+    public ArrayList<String> getFileHeader() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<String> getFileCode() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // variables
     ////////////////////////////////////////////////////////////////////////////
@@ -55,7 +65,7 @@ public class ParserFunctionImpl implements Parser {
     // Interface methods
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public ArrayList<String> parser(ArrayList<String> sourceCode) {
+    public ArrayList<String> parser(ArrayList<String> sourceCode, final String fileName) {
         this.sourceCode = sourceCode;
         isNewContext = true;
         for (lineNumber=0; lineNumber < sourceCode.size(); ++lineNumber) {

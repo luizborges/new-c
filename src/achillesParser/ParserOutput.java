@@ -11,9 +11,7 @@ import java.util.ArrayList;
  *
  * @author borges
  */
-public interface Parser {
-    ArrayList<String> parser(final ArrayList<String> sourceCode, final String fileName);
-    
+public interface ParserOutput {
     /**
      * Get the representation in ArrayList of the .h file.
      * @return 

@@ -12,7 +12,7 @@ package achillesParserUtil;
 public interface Token {
     /**
      * Init the token
-     * Go to the first of the text.
+     * Go to the beginning of the text.
      * @return The string of the first token.
      * Never returned a empty string token
      */
@@ -44,6 +44,12 @@ public interface Token {
     String getString();
     
     /**
+     * Get the string representation of the token line
+     * @return 
+     */
+    String getLine();
+    
+    /**
      * The number of the lineNumber of the token
      * Init in the zero position.
      * @return 
@@ -64,4 +70,18 @@ public interface Token {
      * false otherwise
      */
     boolean isEnd();
+    
+    /**
+     * Tell if is the first token of a new line.
+     * @return true if is a new line.
+     * false otherwise
+     */
+    boolean isNewLine();
+    
+    /**
+     * Tell if is the last token of a line.
+     * @return true if it is the last token.
+     * false otherwise.
+     */
+    boolean isLastToken();
 }

@@ -16,6 +16,16 @@ import java.util.Stack;
  * @author borges
  */
 public class ParserFunctionImpl2 implements Parser {
+
+    @Override
+    public ArrayList<String> getFileHeader() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<String> getFileCode() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     ////////////////////////////////////////////////////////////////////////////
     // variables
     ////////////////////////////////////////////////////////////////////////////
@@ -53,7 +63,7 @@ public class ParserFunctionImpl2 implements Parser {
     // Interface methods
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public ArrayList<String> parser(ArrayList<String> sourceCode) {
+    public ArrayList<String> parser(ArrayList<String> sourceCode, final String fileName) {
         this.sourceCode = sourceCode;
         token = AbstractFactory.newToken(sourceCode);
         isNewContext = true;
