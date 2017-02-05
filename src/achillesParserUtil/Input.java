@@ -31,7 +31,8 @@ public interface Input {
     
     /**
      * Retorna o nome do arquivo de leitura em questão
-     * É retornado apenas o nome, sem os diretórios e a extensão.
+     * É retornado o nome com o seu caminho completo, tal como foi passado para
+     * o programa.
      * @return String contendo o nome do arquivo
      */
     String getFileName();

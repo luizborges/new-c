@@ -47,7 +47,6 @@ public class TokenImpl implements Token {
         ////////////////////////////////////////////////////////////////////////////
         // Get the first token
         ////////////////////////////////////////////////////////////////////////////
-        System.out.format("size: %d\n", sourceCode.size());
         for (lineNumber = 0; lineNumber < sourceCode.size(); ++lineNumber) {
             lineToTokens();
             for (linePos = 0; linePos < lineToken.size(); ++linePos) {

@@ -8,6 +8,8 @@ package achillesParser;
 import achillesParserUtil.AbstractFactory;
 import achillesParserUtil.Exit;
 import achillesParserUtil.Token;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -123,7 +125,7 @@ public class ParserFunctionImpl3 implements Parser, ParserOutput {
             int lastId = file.size() - 1;
             String line = file.get(lastId);
             line += " " + token.getString();
-            file.add(lastId, line);
+            file.set(lastId, line);
         }
     }
     
@@ -151,7 +153,7 @@ public class ParserFunctionImpl3 implements Parser, ParserOutput {
         for (int i=0; i < str.length; ++i) {
             line += " " + str[i];
         }
-        file.add(lastId, line);
+        file.set(lastId, line);
     }
     
     private void saveFunctionBody() {
@@ -183,10 +185,15 @@ public class ParserFunctionImpl3 implements Parser, ParserOutput {
      * Create a line: "# include "file.h""
      * in the file.c
      * where file is the name of the user's file
-     * @param fileName String that represents the name of the file
+     * @param fileNameWithPath String that represents the name of the file
      */
-    private void includeHeaderInCodeFile(final String fileName) {
-        String header = "\"" + fileName + ".h\""; // create header file name
+    private void includeHeaderInCodeFile(final String fileNameWithPath) {
+        Path p = Paths.get(fileNameWithPath);
+        String fullName = p.getFileName().toString();  
+        String name[] = fullName.split("\\s++" // retira a extensão do nome do arquivo
+                + "|(?!^|$)(?:(?<=\\.)(?!\\.)|(?<!\\.)(?=\\.))");
+        
+        String header = "\"" + name[0] + ".h\""; // create header file name
         writeFileOutput(FileType.Code, true, "# include", header);
         fileCode.add(""); // create a new line
     }

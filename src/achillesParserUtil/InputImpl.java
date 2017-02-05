@@ -13,8 +13,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  *
@@ -124,12 +122,7 @@ public class InputImpl implements Input {
                      "\nMAX_FILES_PASSED_BY_USER: ", String.valueOf(fileName.length));
         }
         
-        Path p = Paths.get(fileName[filePosition]);
-        String fullName = p.getFileName().toString();  
-        String name[] = fullName.split("\\s++"
-                + "|(?!^|$)(?:(?<=\\.)(?!\\.)|(?<!\\.)(?=\\.))");
-        
-        return name[0]; // retorna apenas o primeiro nome, sem o "." e a extensão
+        return fileName[filePosition];
     }
     
 }
