@@ -89,6 +89,10 @@ public class ParserFunctionImpl implements Parser, ParserOutput {
         
         // escreve a declaração da função em ambos os arquivos
         for (;token.getString().compareTo("{") != 0; token.nextToken()) {
+            if (token.isEnd() == true) {
+                exit.errorLine(24, token.getLineNumber(), token.getLine(),
+                            "Exit Source Code without ending a function header.");
+            }
             if (isFunc == true) {
                 writeFileOutput(FileType.Header);
             }
