@@ -17,7 +17,7 @@ import java.util.Stack;
  *
  * @author borges
  */
-public class ParserFunctionImpl3 implements Parser, ParserOutput {
+public class ParserFunctionImpl implements Parser, ParserOutput {
 
     ////////////////////////////////////////////////////////////////////////////
     // variables

@@ -55,7 +55,7 @@ public class AchillesParser {
             Parser pc = new ParserCommentImpl();
             sourceCode = pc.parser(sourceCode, input.getFileName());
                         
-            pc = new ParserFunctionImpl3();
+            pc = new ParserFunctionImpl();
             pc.parser(sourceCode, input.getFileName());
             
             Output out = new OutputImpl();
