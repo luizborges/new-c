@@ -5,6 +5,7 @@
  */
 package achillesParser;
 
+import achillesParserUtil.AbstractFactory;
 import achillesParserUtil.Input;
 import achillesParserUtil.InputImpl;
 import achillesParserUtil.Exit;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  */
 public class AchillesParser {
 
-    private Exit exit = new ExitImpl(75000);
+    private Exit exit = AbstractFactory.newExit(75000);
     private Input input;
     
     /**
