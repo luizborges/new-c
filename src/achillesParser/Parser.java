@@ -13,16 +13,4 @@ import java.util.ArrayList;
  */
 public interface Parser {
     ArrayList<String> parser(final ArrayList<String> sourceCode, final String fileName);
-    
-    /**
-     * Get the representation in ArrayList of the .h file.
-     * @return 
-     */
-    ArrayList<String> getFileHeader();
-    
-    /**
-     * Get the representation in ArrayList of the .c file.
-     * @return 
-     */
-    ArrayList<String> getFileCode();
 }

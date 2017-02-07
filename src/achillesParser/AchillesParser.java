@@ -53,14 +53,22 @@ public class AchillesParser {
             System.out.format("Initing Parser... File: \"%s\"\n", input.getFileName());
             long start = System.currentTimeMillis();
             
-            Parser pc = new ParserCommentImpl();
-            sourceCode = pc.parser(sourceCode, input.getFileName());
-                        
-            pc = new ParserFunctionImpl();
-            pc.parser(sourceCode, input.getFileName());
+            Parser pr = AbstractFactory.newParserComment();
+            sourceCode = pr.parser(sourceCode, null);
             
-            Output out = new OutputImpl();
-            out.save(pc.getFileHeader(), pc.getFileCode(), input.getFileName());
+            pr = AbstractFactory.newParserString();
+            sourceCode = pr.parser(sourceCode, null);
+
+            pr = AbstractFactory.newParserFunction();
+            pr.parser(sourceCode, input.getFileName());
+            
+            ParserOutput po = AbstractFactory.newParserFunction();
+            ParserString ps = AbstractFactory.newParserString();
+            
+            Output out = AbstractFactory.newOutput();
+            out.save(ps.reverse(po.getFileHeader()), input.getFileName(), ".h");
+            out.save(ps.reverse(po.getFileCode()), input.getFileName(), ".c");
+//            out.save(po.getFileHeader(), po.getFileCode(), input.getFileName());
             
             showTime(System.currentTimeMillis(), start); // show end time
         }

@@ -32,14 +32,14 @@ public class OutputImpl implements Output {
     // Interface methods
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public void save(final ArrayList<String> fileHeader,
-            final ArrayList<String> fileCode, final String fileName) {
+    public void save(final ArrayList<String> fileArray,
+            final String fileName, final String extension) {
         // get the full name of the file without extension
-        String name[] = fileName.split("\\s++" // retira a extensão do nome do arquivo
+        final String _fileName = fileName.trim();
+        String name[] = _fileName.split("\\s++" // retira a extensão do nome do arquivo
                 + "|(?!^|$)(?:(?<=\\.)(?!\\.)|(?<!\\.)(?=\\.))");
         
-        save(fileHeader, name[0] + ".h");
-        save(fileCode, name[0] + ".c");
+        save(fileArray, name[0] + extension);
     }
 
     ////////////////////////////////////////////////////////////////////////////

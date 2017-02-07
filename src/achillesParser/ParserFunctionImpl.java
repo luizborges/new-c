@@ -43,7 +43,11 @@ public class ParserFunctionImpl implements Parser, ParserOutput {
     @Override
     public ArrayList<String> parser(final ArrayList<String> sourceCode,
                                     final String fileName) {
+        fileHeader.clear(); // reset array
+        fileCode.clear();   // reset array
+        
         includeHeaderInCodeFile(fileName);
+        
         token = AbstractFactory.newToken(sourceCode);
         for (token.init(); !token.isEnd(); token.nextToken()) {
             if (token.isNewLine()) {
@@ -128,7 +132,11 @@ public class ParserFunctionImpl implements Parser, ParserOutput {
         } else {
             int lastId = file.size() - 1;
             String line = file.get(lastId);
-            line += " " + token.getString();
+            if (line.isEmpty()) {
+                line = token.getString();
+            } else {
+                line += " " + token.getString();
+            }
             file.set(lastId, line);
         }
     }
@@ -150,14 +158,22 @@ public class ParserFunctionImpl implements Parser, ParserOutput {
         
         if (isNewLine == true) {
             file.add("");
-        } 
+        }  
         
         int lastId = file.size() - 1;
         String line = file.get(lastId);
-        for (int i=0; i < str.length; ++i) {
+        if (line.isEmpty()) {
+            line = str[0];
+        } else {
+            line += " " + str[0];
+        }
+        
+        for (int i=1; i < str.length; ++i) {
             line += " " + str[i];
         }
         file.set(lastId, line);
+        
+        
     }
     
     private void saveFunctionBody() {

@@ -34,7 +34,7 @@ public class ParserCommentImpl implements Parser {
     
     private final Exit exit = AbstractFactory.newExit(75002);
     private int lineNumber;
-    private ArrayList<String> sourceCodeWithoutComment = new ArrayList<>();
+    private final ArrayList<String> sourceCodeWithoutComment = new ArrayList<>();
     
     ////////////////////////////////////////////////////////////////////////////
     // constructor
@@ -59,6 +59,7 @@ public class ParserCommentImpl implements Parser {
     public ArrayList<String> parser(final ArrayList<String> sourceCode, final String fileName) {
         
         StateFile state = StateFile.CommonLine;
+        sourceCodeWithoutComment.clear(); // reset the array
         
         for(lineNumber = 0; lineNumber < sourceCode.size(); ++lineNumber) {
             String line = sourceCode.get(lineNumber);
@@ -74,16 +75,6 @@ public class ParserCommentImpl implements Parser {
         
         return sourceCodeWithoutComment;
         
-    }
-  
-    @Override
-    public ArrayList<String> getFileHeader() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ArrayList<String> getFileCode() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     ///////////////////////////////////////////////////////////////////////////

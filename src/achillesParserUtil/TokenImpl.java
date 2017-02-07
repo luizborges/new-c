@@ -28,7 +28,27 @@ public class TokenImpl implements Token {
     ////////////////////////////////////////////////////////////////////////////
     // Constructor
     ////////////////////////////////////////////////////////////////////////////
+    /**
+     * If you will use this construct you must call 
+     * 'create(final ArrayList<String> sourceCode)'
+     * to use this function
+     * This was create to use with singleton and abstractFactory patterns
+    */
+    public TokenImpl() {}
+    
     public TokenImpl(final ArrayList<String> sourceCode) {
+        if (sourceCode != null) {
+            this.sourceCode = sourceCode;
+            isInit = false;
+        } else {
+            exit.error(1, "Source Code passed to Token is null.");
+        }
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // public functions - false construct - singleton and abstract method
+    ////////////////////////////////////////////////////////////////////////////
+    public void create(final ArrayList<String> sourceCode) {
         if (sourceCode != null) {
             this.sourceCode = sourceCode;
             isInit = false;
@@ -204,19 +224,10 @@ public class TokenImpl implements Token {
         String lineStr = sourceCode.get(lineNumber).trim();
         String[] lineT;
         
-        lineT = lineStr.split("\\s++"
-                + "|(?!^|$)(?:(?<=\\;)(?!\\;)|(?<!\\;)(?=\\;))"
-                + "|(?!^|$)(?:(?<=\\#)(?!\\#)|(?<!\\#)(?=\\#))"
+        lineT = lineStr.split("\\s+"
                 + "|(?!^|$)(?:(?<=\\{)(?!\\{)|(?<!\\{)(?=\\{))"
                 + "|(?!^|$)(?:(?<=\\})(?!\\})|(?<!\\})(?=\\}))"
-                + "|(?!^|$)(?:(?<=\\()(?!\\()|(?<!\\()(?=\\())"
-                + "|(?!^|$)(?:(?<=\\))(?!\\))|(?<!\\))(?=\\)))"
-                + "|(?!^|$)(?:(?<=\\,)(?!\\,)|(?<!\\,)(?=\\,))"
-                + "|(?!^|$)(?:(?<=\\:)(?!\\:)|(?<!\\:)(?=\\:))"
-                + "|(?!^|$)(?:(?<=\\::)(?!\\::)|(?<!\\::)(?=\\::))"
-                + "|(?!^|$)(?:(?<=\\<)(?!\\<)|(?<!\\<)(?=\\<))"
-                + "|(?!^|$)(?:(?<=\\>)(?!\\>)|(?<!\\>)(?=\\>))"
-                + "|(?!^|$)(?:(?<=\\=)(?!\\=)|(?<!\\=)(?=\\=))");
+                + "|(?!^|$)(?:(?<=\\()(?!\\()|(?<!\\()(?=\\())");
         
         lineToken.clear(); // reseta a lista
         
@@ -228,7 +239,32 @@ public class TokenImpl implements Token {
     }
 
     
-
+//private void lineToTokens() {
+//        String lineStr = sourceCode.get(lineNumber).trim();
+//        String[] lineT;
+//        
+//        lineT = lineStr.split("\\s++"
+//                + "|(?!^|$)(?:(?<=\\;)(?!\\;)|(?<!\\;)(?=\\;))"
+//                + "|(?!^|$)(?:(?<=\\#)(?!\\#)|(?<!\\#)(?=\\#))"
+//                + "|(?!^|$)(?:(?<=\\{)(?!\\{)|(?<!\\{)(?=\\{))"
+//                + "|(?!^|$)(?:(?<=\\})(?!\\})|(?<!\\})(?=\\}))"
+//                + "|(?!^|$)(?:(?<=\\()(?!\\()|(?<!\\()(?=\\())"
+//                + "|(?!^|$)(?:(?<=\\))(?!\\))|(?<!\\))(?=\\)))"
+//                + "|(?!^|$)(?:(?<=\\,)(?!\\,)|(?<!\\,)(?=\\,))"
+//                + "|(?!^|$)(?:(?<=\\:)(?!\\:)|(?<!\\:)(?=\\:))"
+//                + "|(?!^|$)(?:(?<=\\::)(?!\\::)|(?<!\\::)(?=\\::))"
+//                + "|(?!^|$)(?:(?<=\\<)(?!\\<)|(?<!\\<)(?=\\<))"
+//                + "|(?!^|$)(?:(?<=\\>)(?!\\>)|(?<!\\>)(?=\\>))"
+//                + "|(?!^|$)(?:(?<=\\=)(?!\\=)|(?<!\\=)(?=\\=))");
+//        
+//        lineToken.clear(); // reseta a lista
+//        
+//        for (int i = 0; i < lineT.length; ++i) {
+//            if (lineT[i].isEmpty() == false) {
+//                lineToken.add(lineT[i]);
+//            }
+//        }
+//    }
     
 
     
